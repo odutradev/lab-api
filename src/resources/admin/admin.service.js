@@ -45,6 +45,21 @@ export default class Service {
         }
     }
 
+    async disapproveUser({}, {}, { userID }){
+        try {
+            const user = await userModel.findById(userID);
+			if (!user) return { error: "user_not_found" };
+            const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ status: 'blocked' } }, { new: true }).select('-password');
+            const markdown = replaceMarkdown('disapprove', [
+                ['name', user.name]
+            ])
+            await email(markdown, user.email, 'Atualização de conta');
+			return newUser;
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
     async updateUser({ data }, {}, { userID }){
         try {
 			const user = await userModel.findById(userID);
