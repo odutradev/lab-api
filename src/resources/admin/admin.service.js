@@ -35,8 +35,10 @@ export default class Service {
             const user = await userModel.findById(userID);
 			if (!user) return { error: "user_not_found" };
             const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ status: 'logged' } }, { new: true }).select('-password');
-            const markdown = '# Hello world!\n\nThis is a **markdown** message'
-            await email(markdown, user.email, 'Atualização de statu2s');
+            const markdown = replaceMarkdown('approve', [
+                ['name', user.name]
+            ])
+            await email(markdown, user.email, 'Atualização de conta');
 			return newUser;
         } catch (err) {
             return { error: "internal_error" } ;

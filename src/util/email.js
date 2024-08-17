@@ -15,10 +15,8 @@ const email = async (markdown, to, subject) => {
     const html = marked(markdown);
 
     try {
-        let info = await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject, html });
-        console.log('Email enviado: ' + info.response);
+        await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject, html });
     } catch (error) {
-        console.log('Erro ao enviar email: ' + error.message);
     }
 };  
 
