@@ -1,8 +1,10 @@
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 
+import replaceMarkdown from "../../util/replaceMarkdown.js";
 import secretFunction from "../../util/secret.js";
 import userModel from "../../models/user.js";
+import sendEmail from "../../util/email.js";
 
 export default class Service {
 
@@ -60,6 +62,23 @@ export default class Service {
             if (!user) return { error: "user_not_found" };
             const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ ...data } }, { new: true }).select('-password');
             return newUser;
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
+    async requestResetPassword({ email }){
+        try {
+            const user = await userModel.findOne({ email });
+            if (!user) return { error: "user_not_found" };
+            const code = Math.floor(1000 + Math.random() * 9000).toString();
+            await userModel.findOneAndUpdate({ email }, { $set:{ payload: { code }} }, { new: true });
+            const markdown = replaceMarkdown('requestResetPassword', [
+                ['email', email],
+                ['code', code]
+            ]);
+            await sendEmail(markdown, email, 'Redefinição de senha');
+            return;
         } catch (err) {
             return { error: "internal_error" } ;
         }

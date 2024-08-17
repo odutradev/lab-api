@@ -33,7 +33,8 @@ const UserSchema = new mongoose.Schema({
 		banner: String
 	},
 	payload: {
-		redirect: String
+		redirect: String,
+		code: Number
 	},
 	spaces: [
 		{
