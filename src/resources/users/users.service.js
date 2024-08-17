@@ -27,7 +27,7 @@ export default class Service {
             var salt = await bcrypt.genSalt(10);
             password = await bcrypt.hash(password, salt);
             var data = {
-                loggedAt: Date.now(),
+                createAt: Date.now(),
                 status: 'pending',
                 password, 
                 payload,

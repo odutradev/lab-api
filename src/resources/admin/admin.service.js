@@ -20,6 +20,25 @@ export default class Service {
         }
     }
 
+    async getPendingUsers(){
+        try {
+			return await userModel.find({ status: "pending" }).sort({ date: -1 }).select('-password');
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
+    async approveUser({}, {}, { userID }){
+        try {
+			const user = await userModel.findById(userID);
+			if (!user) return { error: "user_not_found" };
+            const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ status: 'logged' } }, { new: true }).select('-password');
+			return newUser;
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
     async updateUser({ data }, {}, { userID }){
         try {
 			const user = await userModel.findById(userID);

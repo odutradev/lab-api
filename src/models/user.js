@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema({
 	  type: Date,
 	  default: Date.now()
 	},
-	loggedAt:{
+	approvedAt:{
 	  type: Date,
 	},
 	images: {
