@@ -1,0 +1,66 @@
+{
+    "internal_error": {
+        "message": "Server Error",
+        "removable": false,
+        "statusCode": 500
+    },
+    "token_is_not_valid": {
+        "message": "Token is not valid",
+        "removable": false,
+        "statusCode": 401
+    },
+    "no_token": {
+        "message": "No token, authorization denied",
+        "removable": false,
+        "statusCode": 400
+    },
+    "no_admin": {
+        "message": "No admin, authorization denied",
+        "removable": false,
+        "statusCode": 400
+    },
+    "no_credentials": {
+        "message": "No credentials send",
+        "statusCode": 401
+    },
+    "no_data": {
+        "message": "No data send",
+        "statusCode": 401
+    },
+    "user_not_found": {
+        "message": "User not found",
+        "statusCode": 404
+    },
+    "company_not_found": {
+        "message": "Company not found",
+        "statusCode": 404
+    },
+    "user_already_exists": {
+        "message": "User already exists",
+        "statusCode": 401
+    },
+    "company_already_exists": {
+        "message": "Company already exists",
+        "statusCode": 401
+    },
+    "no_permission_to_execute": {
+        "message": "No permission to execute",
+        "statusCode": 401
+    },
+    "already_registered_user": {
+        "message": "Already registered user",
+        "statusCode": 401
+    },
+    "invalid_credentials": {
+        "message": "Invalid Credentials",
+        "statusCode": 401
+    },
+    "company_limit_reached": {
+        "message": "Company limit reached",
+        "statusCode": 401
+    },
+    "invalid_data": {
+        "message": "Invalid Data",
+        "statusCode": 401
+    }
+}
