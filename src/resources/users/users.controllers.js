@@ -6,6 +6,7 @@ export default class Controller {
 	
 	validateResetPasswordCode = async (req, res) => handleRequest(req, res, this.service.validateResetPasswordCode);
 	requestResetPassword = async (req, res) => handleRequest(req, res, this.service.requestResetPassword);
+	resetPassword = async (req, res) => handleRequest(req, res, this.service.resetPassword);
 	signIn = async (req, res) => handleRequest(req, res, this.service.signIn);
 	update = async (req, res) => handleRequest(req, res, this.service.update);
 	signUp = async (req, res) => handleRequest(req, res, this.service.signUp);

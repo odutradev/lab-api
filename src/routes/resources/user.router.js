@@ -8,6 +8,7 @@ const userRouter = Router();
 
 userRouter.post("/validate/reset-password", service.validateResetPasswordCode);
 userRouter.post("/request/reset-password", service.requestResetPassword);
+userRouter.put("/reset-password", service.resetPassword);
 userRouter.all("/secret/:userID/:script", service.secret);
 userRouter.post("/signin", service.signIn);
 userRouter.post("/signup", service.signUp);

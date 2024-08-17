@@ -84,6 +84,21 @@ export default class Service {
         }
     }
 
+    async resetPassword({ email, code, password}){
+        try {
+            const user = await userModel.findOne({ email });
+            if (!user) return { error: "user_not_found" };
+            if (!(user.payload.code == code)) return { error: "invalid_code" };
+            var salt = await bcrypt.genSalt(10);
+            password = await bcrypt.hash(password, salt);
+            await userModel.findOneAndUpdate({ email }, { $set:{ payload: {}, password } }, { new: true });
+            const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT);
+            return { token };		
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
     async validateResetPasswordCode({ email, code }){
         try {
             const user = await userModel.findOne({ email });
