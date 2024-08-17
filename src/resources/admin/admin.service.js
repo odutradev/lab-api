@@ -1,5 +1,6 @@
 import userModel from "../../models/user.js";
 import email from "../../util/email.js";
+import replaceMarkdown from "../../util/replaceMarkdown.js";
 
 export default class Service {
 
@@ -31,7 +32,7 @@ export default class Service {
 
     async approveUser({}, {}, { userID }){
         try {
-			const user = await userModel.findById(userID);
+            const user = await userModel.findById(userID);
 			if (!user) return { error: "user_not_found" };
             const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ status: 'logged' } }, { new: true }).select('-password');
             const markdown = '# Hello world!\n\nThis is a **markdown** message'
