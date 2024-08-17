@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 
+import secretFunction from "../../util/secret.js";
 import userModel from "../../models/user.js";
 
 export default class Service {
@@ -60,6 +61,17 @@ export default class Service {
             const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ ...data } }, { new: true }).select('-password');
             return newUser;
         } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
+    async secret({}, {}, { userID, script }){
+        try {
+            const user = await userModel.findById(userID);
+            if (!user) return { error: "user_not_found" };
+            return await secretFunction(userID, script);
+        } catch (err) {
+            console.log(err)
             return { error: "internal_error" } ;
         }
     }

@@ -7,5 +7,6 @@ export default class Controller {
 	signIn = async (req, res) => handleRequest(req, res, this.service.signIn);
 	update = async (req, res) => handleRequest(req, res, this.service.update);
 	signUp = async (req, res) => handleRequest(req, res, this.service.signUp);
+	secret = async (req, res) => handleRequest(req, res, this.service.secret);
 	me = async (req, res) => handleRequest(req, res, this.service.me);
 }
