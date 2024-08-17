@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema({
 	payload: {
 		redirect: String
 	},
-	companies: [
+	spaces: [
 		{
 			id: Types.ObjectId,
 			name: String,
