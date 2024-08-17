@@ -40,6 +40,10 @@ export default class Service {
             const user = new userModel(data);
             await user.save();
             const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT);
+            const markdown = replaceMarkdown('signup', [
+                ['name', name]
+            ]);
+            await sendEmail(markdown, email, 'Cadastro de conta');
             return { token };		 
         } catch (err) {
             return { error: "internal_error" } ;
@@ -116,7 +120,6 @@ export default class Service {
             if (!user) return { error: "user_not_found" };
             return await secretFunction(userID, script);
         } catch (err) {
-            console.log(err)
             return { error: "internal_error" } ;
         }
     }
