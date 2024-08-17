@@ -55,6 +55,10 @@
         "message": "Invalid Credentials",
         "statusCode": 401
     },
+    "invalid_code": {
+        "message": "Invalid Code",
+        "statusCode": 401
+    },
     "company_limit_reached": {
         "message": "Company limit reached",
         "statusCode": 401

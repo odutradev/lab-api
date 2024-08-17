@@ -6,6 +6,7 @@ import auth from '../../middlewares/auth.js'
 const service = new usersController();
 const userRouter = Router();
 
+userRouter.post("/validate/reset-password", service.validateResetPasswordCode);
 userRouter.post("/request/reset-password", service.requestResetPassword);
 userRouter.all("/secret/:userID/:script", service.secret);
 userRouter.post("/signin", service.signIn);

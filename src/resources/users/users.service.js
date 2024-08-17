@@ -84,6 +84,17 @@ export default class Service {
         }
     }
 
+    async validateResetPasswordCode({ email, code }){
+        try {
+            const user = await userModel.findOne({ email });
+            if (!user) return { error: "user_not_found" };
+            if (!(user.payload.code == code)) return { error: "invalid_code" };
+            return { authorized: true };
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
     async secret({}, {}, { userID, script }){
         try {
             const user = await userModel.findById(userID);
