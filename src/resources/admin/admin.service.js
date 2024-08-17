@@ -1,4 +1,5 @@
 import userModel from "../../models/user.js";
+import email from "../../util/email.js";
 
 export default class Service {
 
@@ -33,6 +34,8 @@ export default class Service {
 			const user = await userModel.findById(userID);
 			if (!user) return { error: "user_not_found" };
             const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ status: 'logged' } }, { new: true }).select('-password');
+            const markdown = '# Hello world!\n\nThis is a **markdown** message'
+            await email(markdown, user.email, 'Atualização de statu2s');
 			return newUser;
         } catch (err) {
             return { error: "internal_error" } ;
