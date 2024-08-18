@@ -62,6 +62,8 @@ export default class Service {
             if (!guest) return { error: "user_not_found"};
             const user  = await userModel.findById(userID).select('-password');
             if (!user) return { error: "user_not_found"};
+            const hasSpace = user.spaces.find(x => x.id == spaceID);
+            if (hasSpace) return { error: "user_already_in_space" }; 
             guest.spaces = [
                 ...guest.spaces,
                  {
@@ -82,10 +84,38 @@ export default class Service {
                 ['space', space.name],
                 ['spaceID', spaceID]
             ]);
-            await email(markdown, guest.email, 'Você recebeu um convite!');
+            email(markdown, guest.email, 'Você recebeu um convite!');
             return { space, user: guest };
         } catch (err) {
-            console.log(err)
+            return { error: "internal_error" } ;
+        }
+    }
+    async acceptInvitation({ spaceID, userID }, { }){
+        try {
+			const space = await spaceModel.findById(spaceID);
+			if (!space) return { error: "space_not_found" };
+            const user  = await userModel.findById(userID).select('-password');
+            if (!user) return { error: "user_not_found"};
+            const spaceIndex = user.spaces.findIndex(x => x.id == spaceID);
+            const findSpace = user.spaces.find(x => x.id == spaceID);
+            if (spaceIndex == -1) return { error: "invitation_not_found"};
+            const inviteBy = await userModel.findById(user.spaces[spaceIndex].invitedBy.id);
+            findSpace.invite = false;
+            user.spaces[spaceIndex] = findSpace;
+            await user.save();
+            const markdownGuest = replaceMarkdown('acceptInvite', [
+                ['name', user.name],
+                ['space', space.name],
+            ]);
+            email(markdownGuest, user.email, 'Você está participando de um novo espaço!');   
+            const markdown = replaceMarkdown('invitationAccepted', [
+                ['name', user.name],
+                ['invitedBy', inviteBy.name],
+                ['space', space.name],
+            ]);
+            email(markdown, inviteBy.email, 'O convite foi aceito!');  
+            return { space, user };
+        } catch (err) {
             return { error: "internal_error" } ;
         }
     }

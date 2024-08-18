@@ -5,6 +5,7 @@ import spaceController from "../../resources/space/space.controller.js";
 const service = new spaceController();
 const spaceRouter = Router();
 
+spaceRouter.post("/invite/accept", service.acceptInvitation);
 spaceRouter.delete("/delete/:spaceID", service.deleteSpace);
 spaceRouter.post("/invite", service.inviteToSpace);
 spaceRouter.post("/create", service.createSpace);
