@@ -12,6 +12,7 @@ spaceRouter.post("/invite", service.inviteToSpace);
 spaceRouter.post("/create", service.createSpace);
 spaceRouter.get("/users", service.getSpaceUsers);
 spaceRouter.put("/update", service.updateSpace);
+spaceRouter.put("/leave", service.leaveSpace);
 spaceRouter.get("/get", service.getSpace);
 
 

@@ -137,6 +137,22 @@ export default class Service {
             return { error: "internal_error" };
         }
     }
+
+    async leaveSpace({ spaceID, userID }) {
+        try {
+            const space = await spaceModel.findById(spaceID);
+            if (!space) return { error: "space_not_found" };
+            const user = await userModel.findById(userID).select('-password');
+            if (!user) return { error: "user_not_found" };
+            const spaceIndex = user.spaces.findIndex(x => x.id == spaceID);
+            if (spaceIndex === -1) return { error: "invitation_not_found" };
+            user.spaces.splice(spaceIndex, 1);
+            await user.save();
+            return { space, user };
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    }
     
     async updateSpace({ data, spaceID }, { userID }){
         try {
