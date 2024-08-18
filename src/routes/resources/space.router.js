@@ -7,6 +7,7 @@ const spaceRouter = Router();
 
 spaceRouter.post("/create", service.createSpace);
 spaceRouter.get("/users", service.getSpaceUsers);
+spaceRouter.get("/get", service.getSpace);
 
 
 export default spaceRouter;

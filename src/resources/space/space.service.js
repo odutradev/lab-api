@@ -36,26 +36,17 @@ export default class Service {
 
     async getSpaceUsers({}, { spaceID }){
         try {
-            console.log(spaceID)
             return await userModel.find({ "spaces.id": spaceID }).select('-password');
         } catch (err) {
             return { error: "internal_error" } ;
         }
     }
 
-    async getPublicCompanies(){
+    async getSpace({}, { spaceID }){
         try {
-            return await spaceModel.find();
-        } catch (err) {
-            return { error: "internal_error" } ;
-        }
-    }
-
-    async getCompany({}, { companyID }){
-        try {
-            const company = await spaceModel.findById(companyID);
-            if (!company) return { error: "company_not_found" };
-            return company;
+            const space = await spaceModel.findById(spaceID);
+            if (!space) return { error: "space_not_found" };
+            return space;
         } catch (err) {
             return { error: "internal_error" } ;
         }
