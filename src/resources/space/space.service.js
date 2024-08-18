@@ -105,10 +105,13 @@ export default class Service {
             await user.save();
             const markdownGuest = replaceMarkdown('acceptInvite', [
                 ['name', user.name],
+                ['name', user.name],
+                ['invitedBy', inviteBy.name],
                 ['space', space.name],
             ]);
             email(markdownGuest, user.email, 'Você está participando de um novo espaço!');   
             const markdown = replaceMarkdown('invitationAccepted', [
+                ['name', user.name],
                 ['name', user.name],
                 ['invitedBy', inviteBy.name],
                 ['space', space.name],
