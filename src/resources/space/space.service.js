@@ -34,9 +34,10 @@ export default class Service {
         }
     }
 
-    async getCompanyUsers({}, { companyID }){
+    async getSpaceUsers({}, { spaceID }){
         try {
-            return await userModel.find({ "companies.id": companyID }).select('-password');
+            console.log(spaceID)
+            return await userModel.find({ "spaces.id": spaceID }).select('-password');
         } catch (err) {
             return { error: "internal_error" } ;
         }

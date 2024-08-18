@@ -6,6 +6,7 @@ const service = new spaceController();
 const spaceRouter = Router();
 
 spaceRouter.post("/create", service.createSpace);
+spaceRouter.get("/users", service.getSpaceUsers);
 
 
 export default spaceRouter;
