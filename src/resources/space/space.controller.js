@@ -6,6 +6,7 @@ export default class Controller {
 	
 	getSpaceUsers = async (req, res) => handleRequest(req, res, this.service.getSpaceUsers);
 	createSpace = async (req, res) => handleRequest(req, res, this.service.createSpace);
+	updateSpace = async (req, res) => handleRequest(req, res, this.service.updateSpace);
 	getSpace = async (req, res) => handleRequest(req, res, this.service.getSpace);
 
 }

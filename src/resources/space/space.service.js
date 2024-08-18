@@ -52,17 +52,17 @@ export default class Service {
         }
     }
     
-    async updateCompany({ data }, { companyID, userID }){
+    async updateSpace({ data }, { spaceID, userID }){
         try {
-			const company = await spaceModel.findById(companyID);
-			if (!company) return { error: "company_not_found" };
+			const space = await spaceModel.findById(spaceID);
+			if (!space) return { error: "space_not_found" };
             const user  = await userModel.findById(userID).select('-password');
             if (!user) return { error: "user_not_found"};
-            const userCompanyData = user.companies.find(x => x.id == companyID);
-            const hasManagePermission = userCompanyData.permissions.find(x => x == "MANAGE_COMPANY");
+            const userSpaceData = user.spaces.find(x => x.id == spaceID);
+            const hasManagePermission = userSpaceData.permissions.find(x => x == "MANAGE_COMPANY");
             if (!hasManagePermission) return { error: "no_permission_to_execute"};
-            const newCompany = await spaceModel.findByIdAndUpdate(companyID, { $set:{ ...data } }, { new: true });
-			return newCompany;
+            const newSpace = await spaceModel.findByIdAndUpdate(spaceID, { $set:{ ...data } }, { new: true });
+			return newSpace;
         } catch (err) {
             return { error: "internal_error" } ;
         }
