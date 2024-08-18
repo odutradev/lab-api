@@ -6,7 +6,7 @@ import { sendError } from "../app.js";
 const auth = (req, res, next) => {
 
   var token = req.header('authorization');
-  var company = req.header('company');
+  var space = req.header('space');
   if (!token) return sendError(res, 'no_token');
 
   try {
@@ -14,7 +14,7 @@ const auth = (req, res, next) => {
       if (error) return sendError(res, 'token_is_not_valid');
         req.userID = decoded.id;
         req.role = decoded.role;
-        req.companyID = company;
+        req.spaceID = space;
         next();
     });
   } catch (err) {

@@ -4,7 +4,7 @@ const handleRequest = async (req, res, serviceMethod) => {
 	try {
 		const response = await serviceMethod(req.body, { 
 			userID: req.userID,
-			companyID: req.companyID
+			spaceID: req.spaceID
 		}, req.params);
 
 		if (response?.error) {
