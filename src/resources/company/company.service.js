@@ -1,4 +1,4 @@
-import companyModel from "../../models/company.js";
+import companyModel from "../../models/space.js";
 import userModel from "../../models/user.js";
 
 export default class Service {
