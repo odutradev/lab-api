@@ -4,6 +4,7 @@ import Service from "./space.service.js";
 export default class Controller {
 	service = new Service();
 	
+	inviteToSpace = async (req, res) => handleRequest(req, res, this.service.inviteToSpace);
 	getSpaceUsers = async (req, res) => handleRequest(req, res, this.service.getSpaceUsers);
 	createSpace = async (req, res) => handleRequest(req, res, this.service.createSpace);
 	updateSpace = async (req, res) => handleRequest(req, res, this.service.updateSpace);

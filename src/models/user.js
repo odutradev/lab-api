@@ -40,6 +40,11 @@ const UserSchema = new mongoose.Schema({
 		{
 			id: Types.ObjectId,
 			name: String,
+			invite: Boolean,
+			invitedBy: {
+				name: String,
+				id: String
+			},
 			entryDate: {
 				type: Date,
 				default: Date.now()
