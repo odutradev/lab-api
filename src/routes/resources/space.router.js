@@ -7,6 +7,7 @@ const spaceRouter = Router();
 
 spaceRouter.post("/invite/accept", service.acceptInvitation);
 spaceRouter.delete("/delete/:spaceID", service.deleteSpace);
+spaceRouter.post("/invite/deny", service.denyInvitation);
 spaceRouter.post("/invite", service.inviteToSpace);
 spaceRouter.post("/create", service.createSpace);
 spaceRouter.get("/users", service.getSpaceUsers);
