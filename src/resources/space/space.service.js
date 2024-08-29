@@ -7,13 +7,13 @@ export default class Service {
 
     async createSpace({ name, payload }, { userID }){
         try {
-            const hasSpace = await spaceModel.findOne({ name });
-            if (hasSpace)  return { error: "space_already_exists" };
             const user  = await userModel.findById(userID).select('-password');
             if (!user) return { error: "user_not_found"};
+            const hasUserSpace = user.spaces.find(space => space.name === name);
+            if (hasUserSpace)  return { error: "space_already_exists" };
             const space = new spaceModel({
                 createAt: Date.now(),
-                admin: userID,
+                creator: userID,
                 payload,
                 name,
             });
@@ -32,6 +32,7 @@ export default class Service {
             await user.save();
             return { space, user };
         } catch (err) {
+            console.log(err)
             return { error: "internal_error" } ;
         }
     }

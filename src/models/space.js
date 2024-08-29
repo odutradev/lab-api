@@ -3,7 +3,9 @@ import mongoose from 'mongoose';
 const SpaceSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		unique: true
+	},
+	creator: {
+		type: String
 	},
 	status: {
 		type: String,
