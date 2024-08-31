@@ -38,7 +38,7 @@ export default class Service {
             const markdown = replaceMarkdown('approve', [
                 ['name', user.name]
             ])
-            await email(markdown, user.email, 'Atualização de conta');
+            email(markdown, user.email, 'Atualização de conta');
 			return newUser;
         } catch (err) {
             return { error: "internal_error" } ;
@@ -53,7 +53,7 @@ export default class Service {
             const markdown = replaceMarkdown('disapprove', [
                 ['name', user.name]
             ])
-            await email(markdown, user.email, 'Atualização de conta');
+            email(markdown, user.email, 'Atualização de conta');
 			return newUser;
         } catch (err) {
             return { error: "internal_error" } ;

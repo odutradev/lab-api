@@ -43,7 +43,7 @@ export default class Service {
             const markdown = replaceMarkdown('signup', [
                 ['name', name]
             ]);
-            await sendEmail(markdown, email, 'Cadastro de conta');
+            sendEmail(markdown, email, 'Cadastro de conta');
             return { token };		 
         } catch (err) {
             return { error: "internal_error" } ;
@@ -84,7 +84,7 @@ export default class Service {
                 ['email', email],
                 ['code', code]
             ]);
-            await sendEmail(markdown, email, 'Redefinição de senha');
+            sendEmail(markdown, email, 'Redefinição de senha');
             return;
         } catch (err) {
             return { error: "internal_error" } ;
