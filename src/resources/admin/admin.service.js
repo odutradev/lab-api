@@ -64,6 +64,7 @@ export default class Service {
         try {
 			const user = await userModel.findById(userID);
 			if (!user) return { error: "user_not_found" };
+            delete data.password;
             const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ ...data } }, { new: true }).select('-password');
 			return newUser;
         } catch (err) {
