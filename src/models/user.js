@@ -15,10 +15,6 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		default: 'registered'
 	},
-	permissions: {
-		type: Array,
-		default: []
-	},
 	contact: String,
 	description: String,
 	createAt:{

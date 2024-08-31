@@ -34,7 +34,7 @@ export default class Service {
         try {
             const user = await userModel.findById(userID);
 			if (!user) return { error: "user_not_found" };
-            const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ status: 'logged' } }, { new: true }).select('-password');
+            const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ status: 'logged', approvedAt: Date.now() } }, { new: true }).select('-password');
             const markdown = replaceMarkdown('approve', [
                 ['name', user.name]
             ])
