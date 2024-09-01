@@ -67,6 +67,7 @@ export default class Service {
             delete data.password;
             delete data.status;
             delete data.role;
+            delete data._id;
             const newUser = await userModel.findByIdAndUpdate(userID, { $set:{ ...data } }, { new: true }).select('-password');
             return newUser;
         } catch (err) {
