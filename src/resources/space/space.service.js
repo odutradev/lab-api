@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import replaceMarkdown from "../../util/replaceMarkdown.js";
 import spaceModel from "../../models/space.js";
 import userModel from "../../models/user.js";
@@ -63,7 +64,7 @@ export default class Service {
             if (!guest) return { error: "user_not_found"};
             const user  = await userModel.findById(userID).select('-password');
             if (!user) return { error: "user_not_found"};
-            const hasSpace = user.spaces.find(x => x.id == spaceID);
+            const hasSpace = guest.spaces.find(x => x.id == spaceID);
             if (hasSpace) return { error: "user_already_in_space" }; 
             guest.spaces = [
                 ...guest.spaces,
@@ -155,37 +156,52 @@ export default class Service {
         }
     }
     
-    async updateSpace({ data, spaceID }, { userID }){
-        try {
-			const space = await spaceModel.findById(spaceID);
-			if (!space) return { error: "space_not_found" };
-            const user  = await userModel.findById(userID).select('-password');
-            if (!user) return { error: "user_not_found"};
-            const userSpaceData = user.spaces.find(x => x.id == spaceID);
-            const hasManagePermission = userSpaceData.permissions.find(x => x == "MANAGE_SPACE");
-            if (!hasManagePermission) return { error: "no_permission_to_execute"};
-            const newSpace = await spaceModel.findByIdAndUpdate(spaceID, { $set:{ ...data } }, { new: true });
-			return newSpace;
-        } catch (err) {
-            return { error: "internal_error" } ;
-        }
-    }
-
-    async deleteSpace({}, { userID }, { spaceID }){
+    async updateSpace({ data, spaceID }, { userID }) {
         try {
             const space = await spaceModel.findById(spaceID);
             if (!space) return { error: "space_not_found" };
             const user = await userModel.findById(userID).select('-password');
             if (!user) return { error: "user_not_found" };
             const userSpaceData = user.spaces.find(x => x.id == spaceID);
-            const hasManagePermission = userSpaceData?.permissions.find(x => x == "MANAGE_SPACE ");
+            const hasManagePermission = userSpaceData?.permissions.find(x => x == "MANAGE_SPACE");
+            if (!hasManagePermission) return { error: "no_permission_to_execute" };
+            const updatedSpace = await spaceModel.findByIdAndUpdate(spaceID, { $set: { ...data } }, { new: true });
+            const usersWithSpace = await userModel.find({ "spaces.id": spaceID });
+            await Promise.all(usersWithSpace.map(async (spaceUser) => {
+                const currentSpaces = spaceUser.spaces.map(x => {
+                    if (String(x.id) === String(space._id)) {
+                        return { ...x, ...data };
+                    } else {
+                        return x;
+                    }
+                });
+                spaceUser.spaces = currentSpaces;
+                await spaceUser.save();
+            }));
+            return updatedSpace;
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    }
+    
+    async deleteSpace({}, { userID }, { spaceID }) {
+        try {
+            const space = await spaceModel.findById(spaceID);
+            if (!space) return { error: "space_not_found" };
+            const user = await userModel.findById(userID).select('-password');
+            if (!user) return { error: "user_not_found" };
+            const userSpaceData = user.spaces.find(x => String(x.id) === String(spaceID));
+            const hasManagePermission = userSpaceData?.permissions.find(x => x === "MANAGE_SPACE");
             if (!hasManagePermission) return { error: "no_permission_to_execute" };
             await spaceModel.findByIdAndDelete(spaceID);
-            user.spaces = user.spaces.filter(x => x.id !== spaceID);
-            await user.save();
-            return user;
+            const usersWithSpace = await userModel.find({ "spaces.id": spaceID });
+            for (const spaceUser of usersWithSpace) {
+                spaceUser.spaces = spaceUser.spaces.filter(x => String(x.id) !== String(spaceID));
+                await spaceUser.save();
+            }
+            return { success: true };
         } catch (err) {
-            return { error: "internal_error" } ;
+            return { error: "internal_error" };
         }
     }
 
