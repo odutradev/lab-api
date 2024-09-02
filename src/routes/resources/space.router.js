@@ -6,8 +6,10 @@ const service = new spaceController();
 const spaceRouter = Router();
 
 spaceRouter.post("/invite/accept", service.acceptInvitation);
+spaceRouter.put("/update/:spaceID", service.updateSpaceById);
 spaceRouter.delete("/delete/:spaceID", service.deleteSpace);
 spaceRouter.post("/invite/deny", service.denyInvitation);
+spaceRouter.get("/get/:spaceID", service.getSpaceById);
 spaceRouter.post("/invite", service.inviteToSpace);
 spaceRouter.post("/create", service.createSpace);
 spaceRouter.get("/users", service.getSpaceUsers);

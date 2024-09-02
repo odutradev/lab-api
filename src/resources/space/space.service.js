@@ -55,6 +55,16 @@ export default class Service {
             return { error: "internal_error" } ;
         }
     }
+
+    async getSpaceById({}, {}, { spaceID }){
+        try {
+            const space = await spaceModel.findById(spaceID);
+            if (!space) return { error: "space_not_found" };
+            return space;
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
     
     async inviteToSpace({ spaceID, guestID }, { userID }){
         try {
@@ -157,6 +167,34 @@ export default class Service {
     }
     
     async updateSpace({ data, spaceID }, { userID }) {
+        try {
+            const space = await spaceModel.findById(spaceID);
+            if (!space) return { error: "space_not_found" };
+            const user = await userModel.findById(userID).select('-password');
+            if (!user) return { error: "user_not_found" };
+            const userSpaceData = user.spaces.find(x => x.id == spaceID);
+            const hasManagePermission = userSpaceData?.permissions.find(x => x == "MANAGE_SPACE");
+            if (!hasManagePermission) return { error: "no_permission_to_execute" };
+            const updatedSpace = await spaceModel.findByIdAndUpdate(spaceID, { $set: { ...data } }, { new: true });
+            const usersWithSpace = await userModel.find({ "spaces.id": spaceID });
+            await Promise.all(usersWithSpace.map(async (spaceUser) => {
+                const currentSpaces = spaceUser.spaces.map(x => {
+                    if (String(x.id) === String(space._id)) {
+                        return { ...x, ...data };
+                    } else {
+                        return x;
+                    }
+                });
+                spaceUser.spaces = currentSpaces;
+                await spaceUser.save();
+            }));
+            return updatedSpace;
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    }
+
+    async updateSpaceById({ data }, { userID }, { spaceID }) {
         try {
             const space = await spaceModel.findById(spaceID);
             if (!space) return { error: "space_not_found" };
