@@ -46,6 +46,14 @@ export default class Service {
         }
     }
 
+    async getSpaceUsersById({}, {}, { spaceID }){
+        try {
+            return await userModel.find({ "spaces.id": spaceID }).select('-password');
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
     async getSpace({}, { spaceID }){
         try {
             const space = await spaceModel.findById(spaceID);
