@@ -166,7 +166,7 @@ export default class Service {
         }
     }
     
-    async updateSpace({ data, spaceID }, { userID }) {
+    async updateSpace({ data }, { userID, spaceID }) {
         try {
             const space = await spaceModel.findById(spaceID);
             if (!space) return { error: "space_not_found" };
