@@ -74,11 +74,11 @@ export default class Service {
         }
     }
     
-    async inviteToSpace({ spaceID, guestID }, { userID }){
+    async inviteToSpace({ spaceID, guestEmail }, { userID }){
         try {
 			const space = await spaceModel.findById(spaceID);
 			if (!space) return { error: "space_not_found" };
-            const guest  = await userModel.findById(guestID).select('-password');
+            const guest  = await userModel.findOne({ email: guestEmail }).select('-password');
             if (!guest) return { error: "user_not_found"};
             const user  = await userModel.findById(userID).select('-password');
             if (!user) return { error: "user_not_found"};
