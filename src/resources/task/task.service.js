@@ -55,5 +55,19 @@ export default class Service {
             return { error: "internal_error" } ;
         }
     }
+
+    async getTaskById({}, {}, { taskID }){
+        try {
+            var [ parent, child ] = await Promise.all([
+                taskModel.findById(taskID),
+                taskModel.find({ parent: taskID })
+            ]);
+            if (!parent) return { error: "task_not_found" };
+
+            return { ...parent._doc, subs: child };
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
     
 }

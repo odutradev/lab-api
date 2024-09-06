@@ -31,6 +31,10 @@
         "message": "User not found",
         "statusCode": 404
     },
+    "task_not_found": {
+        "message": "Task not found",
+        "statusCode": 404
+    },
     "space_not_found": {
         "message": "Space not found",
         "statusCode": 404
