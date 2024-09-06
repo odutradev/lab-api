@@ -69,5 +69,18 @@ export default class Service {
             return { error: "internal_error" } ;
         }
     }
+
+    async updateTask({ data }, {}, { taskID }){
+        try {
+            const task = await taskModel.findById(taskID);
+            if (!task) return { error: "task_not_found" };
+
+            delete data._id;
+
+            return await taskModel.findByIdAndUpdate(taskID, { $set:{ ...data, lastUpdate: Date.now() } }, { new: true });
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
     
 }
