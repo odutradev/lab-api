@@ -22,6 +22,10 @@ const SpaceSchema = new mongoose.Schema({
 	},
 	payload: {
 		redirect: String
+	},
+	tasksCounter: {
+		type: Number,
+		default: 0
 	}
 });
 

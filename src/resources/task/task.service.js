@@ -1,11 +1,30 @@
-import space from "../../models/space.js";
-import task from "../../models/task.js";
-import user from "../../models/user.js";
+import spaceModel from "../../models/space.js";
+import taskModel from "../../models/task.js";
+import userModel from "../../models/user.js";
 
 export default class Service {
 
-    async createTask({}){
+    async createTask({ parent, description, content, deadline, index, priority, scheduling }, { userID, spaceID }){
         try {
+            const space = await spaceModel.findById(spaceID);
+			if (!space) return { error: "space_not_found" };
+            space.tasksCounter += 1;
+            await space.save();
+            const task = new taskModel({
+                identificator: space.tasksCounter,
+                creator: userID,
+                space: spaceID,
+                description,
+                scheduling,
+                priority,
+                deadline,
+                content,
+                parent,
+                index,
+            });
+            await task.save();
+
+            return task
 
         } catch (err) {
             return { error: "internal_error" } ;
