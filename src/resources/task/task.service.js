@@ -70,6 +70,26 @@ export default class Service {
         }
     }
 
+    async deleteTask({}, {}, { taskID }){
+        try {
+            var [ parent, child ] = await Promise.all([
+                taskModel.findById(taskID),
+                taskModel.find({ parent: taskID })
+            ]);
+            if (!parent) return { error: "task_not_found" };
+
+            await taskModel.findByIdAndDelete(taskID);
+
+            for (const childTask of child) {
+                await taskModel.findByIdAndDelete(childTask._id);
+            }
+
+            return { success: true };
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
+
     async updateTask({ data }, {}, { taskID }){
         try {
             const task = await taskModel.findById(taskID);
