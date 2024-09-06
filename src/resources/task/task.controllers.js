@@ -5,5 +5,6 @@ export default class Controller {
 	service = new Service();
 	
 	createTask = async (req, res) => handleRequest(req, res, this.service.createTask);
+	getTasks = async (req, res) => handleRequest(req, res, this.service.getTasks);
 
 }

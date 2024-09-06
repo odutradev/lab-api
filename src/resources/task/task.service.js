@@ -8,8 +8,10 @@ export default class Service {
         try {
             const space = await spaceModel.findById(spaceID);
 			if (!space) return { error: "space_not_found" };
+
             space.tasksCounter += 1;
             await space.save();
+
             const task = new taskModel({
                 identificator: space.tasksCounter,
                 creator: userID,
@@ -22,10 +24,33 @@ export default class Service {
                 parent,
                 index,
             });
+
             await task.save();
-
             return task
+        } catch (err) {
+            return { error: "internal_error" } ;
+        }
+    }
 
+    async getTasks({}, { spaceID }){
+        try {
+            var allTasks = await taskModel.find({ space: spaceID });
+
+            var parentTasks = allTasks.filter(task => !task.parent);
+            
+            var taskMap = {};
+            parentTasks.forEach(task => {
+              taskMap[String(task._id)] = { ...task._doc, subs: [] };
+            });
+            
+            allTasks.filter(task => task.parent).forEach(task => {
+              const parentId = String(task.parent);
+              if (taskMap[parentId]) {
+                taskMap[parentId].subs.push(task);
+              }
+            });
+            
+            return Object.values(taskMap);
         } catch (err) {
             return { error: "internal_error" } ;
         }
