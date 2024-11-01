@@ -4,6 +4,7 @@ import Service from "./task.service.js";
 export default class Controller {
 	service = new Service();
 	
+	updateAllTask = async (req, res) => handleRequest(req, res, this.service.updateAllTasks);
 	getTaskById = async (req, res) => handleRequest(req, res, this.service.getTaskById);
 	createTask = async (req, res) => handleRequest(req, res, this.service.createTask);
 	updateTask = async (req, res) => handleRequest(req, res, this.service.updateTask);

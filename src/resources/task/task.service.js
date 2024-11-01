@@ -102,5 +102,16 @@ export default class Service {
             return { error: "internal_error" } ;
         }
     }
+
+    async updateAllTasks({ data }, {}) {
+        try {    
+            return await Promise.all(data.map(async (task) => {
+                const updatedData = { ...task, lastUpdate: Date.now() };
+                return await taskModel.findByIdAndUpdate(task._id, { $set: updatedData }, { new: true });
+            }));
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    }
     
 }
