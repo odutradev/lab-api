@@ -58,7 +58,7 @@ const TaskSchema = new mongoose.Schema({
 		type: Number,
 		description: "numero de criação da task"
 	},
-	index: {
+	order: {
 		type: Number,
 		description: "ordenação da task"
 	},
