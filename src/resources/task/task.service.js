@@ -4,7 +4,7 @@ import userModel from "../../models/user.js";
 
 export default class Service {
 
-    async createTask({ parent, description, content, deadline, index, priority, scheduling }, { userID, spaceID }){
+    async createTask({ parent, description, content, deadline, order, priority, scheduling, status }, { userID, spaceID }){
         try {
             const space = await spaceModel.findById(spaceID);
 			if (!space) return { error: "space_not_found" };
@@ -22,7 +22,8 @@ export default class Service {
                 deadline,
                 content,
                 parent,
-                index,
+                status,
+                order,
             });
 
             await task.save();
