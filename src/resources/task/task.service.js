@@ -1,6 +1,5 @@
 import spaceModel from "../../models/space.js";
 import taskModel from "../../models/task.js";
-import userModel from "../../models/user.js";
 
 export default class Service {
 
@@ -11,6 +10,14 @@ export default class Service {
 
             space.tasksCounter += 1;
             await space.save();
+
+            const extra = {
+                lastUpdate: Date.now(),
+            };
+        
+            if (status == "active"){
+                extra.startIn = Date.now();
+            };
 
             const task = new taskModel({
                 identificator: space.tasksCounter,
@@ -24,6 +31,7 @@ export default class Service {
                 parent,
                 status,
                 order,
+                ...extra,
             });
 
             await task.save();
@@ -98,7 +106,14 @@ export default class Service {
 
             delete data._id;
 
-            return await taskModel.findByIdAndUpdate(taskID, { $set:{ ...data, lastUpdate: Date.now() } }, { new: true });
+            const extra = {
+                lastUpdate: Date.now(),
+            };
+
+            if (data?.status == "active" && !task.startIn) extra.startIn = Date.now();
+            if (data?.status == "completed" && !task.endIn) extra.endIn = Date.now();
+
+            return await taskModel.findByIdAndUpdate(taskID, { $set:{ ...data, ...extra } }, { new: true });
         } catch (err) {
             return { error: "internal_error" } ;
         }
@@ -107,7 +122,14 @@ export default class Service {
     async updateAllTasks({ data }, {}) {
         try {    
             return await Promise.all(data.map(async (task) => {
-                const updatedData = { ...task, lastUpdate: Date.now() };
+                const extra = {
+                    lastUpdate: Date.now(),
+                };
+
+                if (task?.status == "active" && !task.startIn) extra.startIn = Date.now();
+                if (task?.status == "completed" && !task.endIn) extra.endIn = Date.now();
+
+                const updatedData = { ...task, ...extra };
                 return await taskModel.findByIdAndUpdate(task._id, { $set: updatedData }, { new: true });
             }));
         } catch (err) {
