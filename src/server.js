@@ -1,3 +1,5 @@
+process.env.TZ = 'America/Sao_Paulo';
+
 import chalk from 'chalk';
 import https from 'https';
 import log from 'gulog';
@@ -32,3 +34,4 @@ process.on('SIGINT', () => {
     serverHttps.close()
     log.error('App finalizado')
 })
+
