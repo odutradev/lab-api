@@ -1,4 +1,4 @@
-import accountModel from "../../models/account";
+import accountModel from "../../models/account.js";
 
 export default class Service {
     async createAccount(){

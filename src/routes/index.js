@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import financeRouter from "./resources/finances.router.js";
 import spaceRouter from "./resources/space.router.js";
 import adminRouter from "./resources/admin.router.js";
 import userRouter from "./resources/user.router.js";
@@ -14,6 +15,7 @@ router.get("/ping", (req, res) => {
 });
 
 router.use('/admin', [auth, hasAdmin], adminRouter);
+router.use('/finance', [auth], financeRouter);
 router.use('/space', [auth], spaceRouter);
 router.use('/task', [auth], taskRouter);
 router.use('/user', userRouter);
