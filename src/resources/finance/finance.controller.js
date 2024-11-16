@@ -5,5 +5,6 @@ export default class Controller {
 	service = new Service();
 	
 	createAccount = async (req, res) => handleRequest(req, res, this.service.createAccount);
+	getAccounts = async (req, res) => handleRequest(req, res, this.service.getAccounts);
 
-}
+};

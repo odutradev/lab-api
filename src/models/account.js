@@ -7,6 +7,9 @@ const AccountSchema = new mongoose.Schema({
     },
     description: {
         type: String
+    },
+    space: {
+        type: String
     }
 });
 
