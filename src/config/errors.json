@@ -51,6 +51,10 @@
         "message": "User already exists",
         "statusCode": 401
     },
+    "account_already_exists": {
+        "message": "Account already exists",
+        "statusCode": 401
+    },
     "space_already_exists": {
         "message": "Space already exists",
         "statusCode": 401
