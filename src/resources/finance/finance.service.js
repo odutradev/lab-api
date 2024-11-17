@@ -44,6 +44,17 @@ export default class Service {
         }
     };
 
+    async updateAccountById({ data }, {}, { accountID }){
+        try {
+            const account = await accountModel.findById(accountID);
+            if (!account) return { error: "account_not_found" };
+
+            return await accountModel.findByIdAndUpdate(accountID, { $set: data }, { new: true });
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    };
+
     async getAccounts({}, { spaceID }){
         try {
             return await accountModel.find({ space: spaceID });
