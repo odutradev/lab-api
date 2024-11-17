@@ -1,3 +1,4 @@
+import transactionModel from "../../models/transaction.js";
 import accountModel from "../../models/account.js";
 
 export default class Service {
@@ -58,6 +59,31 @@ export default class Service {
     async getAccounts({}, { spaceID }){
         try {
             return await accountModel.find({ space: spaceID });
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    };
+    async createTransaction({ name, description, type, category, value, appellant}, { accountID }, { spaceID, userID }){
+        try {
+            const account = await accountModel.findById(accountID);
+            if (!account) return { error: "account_not_found" };
+
+
+            const transaction = new transactionModel({
+                account: accountID,
+                creator: userID,
+                space: spaceID,
+                description,
+                appellant,
+                category,
+                value,
+                name,
+                type,
+            });
+
+            await transaction.save();
+
+            return transaction;
         } catch (err) {
             return { error: "internal_error" };
         }

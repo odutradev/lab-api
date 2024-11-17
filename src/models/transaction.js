@@ -5,6 +5,9 @@ const TransactionSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
+    creator: {
+		type: String
+	},
     description: {
         type: String
     },
