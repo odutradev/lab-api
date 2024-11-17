@@ -43,6 +43,10 @@
         "message": "Account not found",
         "statusCode": 404
     },
+    "transaction_not_found": {
+        "message": "Transaction not found",
+        "statusCode": 404
+    },
     "invitation_not_found": {
         "message": "There is no invitation to this space",
         "statusCode": 404

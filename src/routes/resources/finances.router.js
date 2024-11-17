@@ -5,6 +5,7 @@ import financeController from "../../resources/finance/finance.controller.js";
 const service = new financeController();
 const financeRouter = Router();
 
+financeRouter.delete("/transaction/delete/:accountID", service.deleteTransactionById);
 financeRouter.post("/transaction/create/:accountID", service.createTransaction);
 financeRouter.delete("/account/delete/:accountID", service.deleteAccountById);
 financeRouter.put("/account/update/:accountID", service.updateAccountById);

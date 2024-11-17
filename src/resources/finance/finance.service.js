@@ -88,4 +88,17 @@ export default class Service {
             return { error: "internal_error" };
         }
     };
+
+    async deleteTransactionById({}, {}, { transactionID }){
+        try {
+            const transaction = await transactionModel.findById(transactionID);
+            if (!transaction) return { error: "transaction_not_found" };
+
+            await transactionModel.findByIdAndDelete(transaction._id)
+
+            return { success: true };
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    };
 };

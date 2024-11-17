@@ -4,8 +4,9 @@ import Service from "./finance.service.js";
 export default class Controller {
 	service = new Service();
 	
-	updateAccountById = async (req, res) => handleRequest(req, res, this.service.updateAccountById);
+	deleteTransactionById = async (req, res) => handleRequest(req, res, this.service.deleteTransactionById);
 	deleteAccountById = async (req, res) => handleRequest(req, res, this.service.deleteAccountById);
+	updateAccountById = async (req, res) => handleRequest(req, res, this.service.updateAccountById);
 	createTransaction = async (req, res) => handleRequest(req, res, this.service.createTransaction);
 	getAccountById = async (req, res) => handleRequest(req, res, this.service.getAccountById);
 	createAccount = async (req, res) => handleRequest(req, res, this.service.createAccount);
