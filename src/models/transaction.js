@@ -12,7 +12,7 @@ const TransactionSchema = new mongoose.Schema({
         type: String
     },
     type: {
-		enum: ['input', 'output', 'blocked', 'investment'],  
+		enum: ['input', 'output', 'blocked', 'investment', 'transfersBetweenAccounts'],  
     },
     space: {
         type: String
@@ -37,7 +37,7 @@ const TransactionSchema = new mongoose.Schema({
             default: false
         },
         repeat: {
-            type: number
+            type: Number
         },
         repeatType: {
             enum: ["weekly", "monthly"]
