@@ -31,6 +31,19 @@ export default class Service {
         }
     };
 
+    async deleteAccountById({}, {}, { accountID }){
+        try {
+            const account = await accountModel.findById(accountID);
+            if (!account) return { error: "account_not_found" };
+
+            await accountModel.findByIdAndDelete(account._id)
+
+            return { success: true };
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    };
+
     async getAccounts({}, { spaceID }){
         try {
             return await accountModel.find({ space: spaceID });
