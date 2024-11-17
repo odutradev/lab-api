@@ -19,6 +19,18 @@ export default class Service {
             return { error: "internal_error" };
         }
     };
+
+    async getAccountById({}, {}, { accountID }){
+        try {
+            const account = await accountModel.findById(accountID);
+            if (!account) return { error: "account_not_found" };
+
+            return account;
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    };
+
     async getAccounts({}, { spaceID }){
         try {
             return await accountModel.find({ space: spaceID });

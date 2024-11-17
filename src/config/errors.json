@@ -39,6 +39,10 @@
         "message": "Space not found",
         "statusCode": 404
     },
+    "account_not_found": {
+        "message": "Account not found",
+        "statusCode": 404
+    },
     "invitation_not_found": {
         "message": "There is no invitation to this space",
         "statusCode": 404
