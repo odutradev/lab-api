@@ -101,4 +101,13 @@ export default class Service {
             return { error: "internal_error" };
         }
     };
+    
+    async getTransactions({}, {}, { accountID }){
+        try {
+            return await transactionModel.find({ account: accountID });
+        } catch (err) {
+            return { error: "internal_error" };
+        }
+    };
+    
 };

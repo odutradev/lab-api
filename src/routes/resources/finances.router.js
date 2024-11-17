@@ -11,6 +11,7 @@ financeRouter.delete("/account/delete/:accountID", service.deleteAccountById);
 financeRouter.put("/account/update/:accountID", service.updateAccountById);
 financeRouter.get("/account/:accountID", service.getAccountById);
 financeRouter.post("/account/create", service.createAccount);
+financeRouter.get("/transactions/", service.getTransactions);
 financeRouter.get("/accounts/", service.getAccounts);
 
 export default financeRouter;
