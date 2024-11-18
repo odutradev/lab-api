@@ -6,6 +6,7 @@ export default class Controller {
 	
 	updateTransactionsById = async (req, res) => handleRequest(req, res, this.service.updateTransactionsById);
 	deleteTransactionById = async (req, res) => handleRequest(req, res, this.service.deleteTransactionById);
+	getTransactionById = async (req, res) => handleRequest(req, res, this.service.getTransactionById);
 	deleteAccountById = async (req, res) => handleRequest(req, res, this.service.deleteAccountById);
 	updateAccountById = async (req, res) => handleRequest(req, res, this.service.updateAccountById);
 	createTransaction = async (req, res) => handleRequest(req, res, this.service.createTransaction);

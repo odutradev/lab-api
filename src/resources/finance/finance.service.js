@@ -115,7 +115,18 @@ export default class Service {
 
             return await transactionModel.findByIdAndUpdate(transactionID, { $set: data }, { new: true });
         } catch (err) {
-            console.log(err)
+            return { error: "internal_error" };
+        }
+    };
+
+    
+    async getTransactionById({}, {}, { transactionID }){
+        try {
+            const transaction = await transactionModel.findById(transactionID);
+            if (!transaction) return { error: "transaction_not_found" };
+
+            return transaction;
+        } catch (err) {
             return { error: "internal_error" };
         }
     };

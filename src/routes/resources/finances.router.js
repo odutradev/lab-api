@@ -9,6 +9,7 @@ financeRouter.delete("/transaction/delete/:transactionID", service.deleteTransac
 financeRouter.put("/transaction/update/:transactionID", service.updateTransactionsById);
 financeRouter.post("/transaction/create/:accountID", service.createTransaction);
 financeRouter.delete("/account/delete/:accountID", service.deleteAccountById);
+financeRouter.get("/transaction/:transactionID", service.getTransactionById);
 financeRouter.put("/account/update/:accountID", service.updateAccountById);
 financeRouter.get("/transactions/:accountID", service.getTransactions);
 financeRouter.get("/account/:accountID", service.getAccountById);
