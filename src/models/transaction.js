@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const TransactionSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        unique: true
-    },
     creator: {
 		type: String
 	},
@@ -12,7 +8,8 @@ const TransactionSchema = new mongoose.Schema({
         type: String
     },
     type: {
-		enum: ['input', 'output', 'blocked', 'investment', 'transfersBetweenAccounts'],  
+        enum: ['input', 'output', 'blocked', 'investment', 'transfersBetweenAccounts'],  
+        type: String
     },
     space: {
         type: String
@@ -40,6 +37,7 @@ const TransactionSchema = new mongoose.Schema({
             type: Number
         },
         repeatType: {
+            type: String,
             enum: ["weekly", "monthly"]
         }
     }
