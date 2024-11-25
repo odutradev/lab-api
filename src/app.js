@@ -26,7 +26,8 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use('/v1', [apiLimiter], router);
+//app.use('/v1', [apiLimiter], router);
+app.use('/v1', router);
 
 app.use((err, req, res, next) => {
   log.error(`An error ocurred at route: general route`);
